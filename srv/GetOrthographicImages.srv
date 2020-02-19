@@ -1,0 +1,7 @@
+# Get Orthographic Images
+
+string[] camera_suffixes
+
+---
+
+bin_picking/OrthographicImage[] images

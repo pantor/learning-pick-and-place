@@ -1,0 +1,38 @@
+body {
+  height: 100%;
+  background-color: #111;
+}
+
+.card-border {
+  border: 3px solid rgba(0,0,0,.125);
+}
+
+.flex-element {
+  padding: 0.3rem;
+}
+
+.card-img-overlay {
+  padding: 0.4rem;
+}
+
+.card-live-image {
+  max-width: 752px;
+  height: auto;
+}
+
+.table-sm td,
+.table-sm th {
+  padding: 0.15rem;
+}
+
+.btn-light:disabled {
+  opacity: 1;
+  color: #aaa;
+}
+
+.btn-off {
+  color: #000;
+}
+.btn-off:hover {
+  background-color: #fff;
+}

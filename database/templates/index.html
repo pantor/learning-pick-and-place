@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <title>Robot Learning Database</title>
+
+  <link rel="stylesheet" href="static/assets/bootstrap.min.css">
+  <link rel="stylesheet" href="static/style.css">
+
+  <script src="static/assets/axios.min.js"></script>
+  <script src="static/assets/vue.min.js"></script>
+  <script src="static/assets/vue-router.min.js"></script>
+  <script src="static/assets/socket.io.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <input type="hidden" id="copy-field">
+
+    <router-view></router-view>
+  </div>
+
+  <script type="text/x-template" id="overview-template">
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-around">
+        <router-link class="navbar-brand" to="/">
+          <img src="static/assets/gripper-white.svg" width="30" height="30" class="d-inline-block align-top mr-1" alt="">
+          Robot Learning Database
+        </router-link>
+
+        <div class="nav-item">
+          <router-link class="nav-link" style="color: #aaa;" to="live">Live</router-link>
+        </div>
+
+        <div class="flex-fill"></div>
+
+        <form class="nav-item flex-grow-1" @submit.prevent="updateActions">
+          <input type="text" class="form-control bg-dark text-light" v-model="filter.query" placeholder="Search">
+        </form>
+
+        <div class="nav-item ml-2">
+          <select class="custom-select bg-dark text-light" v-model="collection" @change="updateActions">
+            <option :value="d" v-for="d in collectionList">[[ d ]]</option>
+          </select>
+        </div>
+
+        <div class="btn-group ml-2">
+          <button class="btn btn-light" @click="setPage(0)" :disabled="pageIndex == 0">&laquo;</button>
+          <button class="btn btn-light" @click="prevPage()" :disabled="pageIndex == 0">&lsaquo;</button>
+          <button class="btn btn-light btn-off" @click="showPageIndexInput = true">
+            <div v-if="showPageIndexInput">
+              <input type="number" step="1" min="0" :max="pageCount" class="form-control" v-model.number="pageIndex" @change="updateActions" @blur="showPageIndexInput = false">
+            </div>
+            <div v-if="!showPageIndexInput">
+              [[ pageIndex + 1 ]] / [[ pageCount ]]
+            </div>
+          </button>
+          <button class="btn btn-light" @click="nextPage()" :disabled="pageIndex == pageCount - 1">&rsaquo;</button>
+          <button class="btn btn-light" @click="setPage(pageCount - 1)" :disabled="pageIndex == pageCount - 1">&raquo;</button>
+        </div>
+
+        <button class="btn btn-light ml-2" @click='showSettings = !showSettings'>
+          <img src="static/assets/icons/tools.svg" alt="" width="23" height="23" title="Tools">
+        </button>
+      </nav>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col mt-1" id="image-container">
+            <div class="d-flex flex-wrap">
+              <div class="flex-element" :id="index" :style="{ width: 100 / columnCount + '%' }" v-for="(entry, index) in pageData" @click="updateDetail(entry.episode_id, entry.action_id)" >
+                <div class="card card-border" :class="{ 'text-light': (entry.episode_id == currentEpisodeId && entry.action_id == currentActionId), 'text-muted': (entry.episode_id != currentEpisodeId || entry.action_id != currentActionId), 'bg-light': entry.attempt, 'bg-success': entry.reward > 0, 'bg-danger': entry.reward <= 0 }">
+                  <img class="card-img-top" :src="`api/image/${collection}/${entry.episode_id}/${entry.action_id}/${suffix}?box=${showBox}`">
+                  <div class="card-img-overlay d-flex flex-column justify-content-between">
+                    <p class="card-title" @click='copyToClipboard(detailEpisode.id)'>[[ entry.episode_id ]] <span v-if="entry.length > 1">| [[ entry.action_id + 1 ]]/[[ entry.length ]]</span></p>
+                    <span>[[ entry.type ]]: [[ entry.reward | round(3) ]]</span>
+                  </div>
+
+                  <img v-if="showSecondImage" class="card-img-top" :src="`api/image/${collection}/${entry.episode_id}/${entry.action_id}/ed-after?box=${showBox}`">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card text-light bg-dark mt-2 mb-2">
+              <div class="card-body">
+                <dl class="row mb-2" v-if="stats">
+                  <dt class="col-sm-5">Episode</dt>
+                  <dd class="col-sm-7 mb-0">[[ stats.episodes.total ]]</dd>
+
+                  <dt class="col-sm-5">Action</dt>
+                  <dd class="col-sm-7 mb-0">[[ stats.actions.total ]]</dd>
+
+                  <dt class="col-sm-5">Reward</dt>
+                  <dd class="col-sm-7 mb-0">[[ stats.grasp.average_reward | round(3) ]]</dd>
+                </dl>
+
+                <div class="d-flex justify-content-between" v-if="detailAction">
+                  <select class="custom-select bg-dark text-light mr-sm-2" v-model="suffix" @change="updatePage">
+                    <option v-for="(data, suffix) in detailAction.images" v-bind:value="suffix">
+                      [[ suffix ]]
+                    </option>
+                  </select>
+
+                  <button class="btn btn-danger " @click="deleteEpisode()">Delete</button>
+                </div>
+
+                <div v-show="showSettings">
+                  <hr>
+
+                  <div class="input-group mt-2 mb-2">
+                    <input type="number" class="form-control bg-dark text-light" v-model="columnCount" @change="search">
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" v-model="showBox" true-value="1" false-value="0" @change="updatePage">
+                    <label class="form-check-label" for="inlineCheckbox1">Draw Bin</label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="-1" v-model="showSecondImage" @change="updateActions">
+                    <label class="form-check-label" for="inlineCheckbox2">Show After Image</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card text-light bg-dark mt-2">
+              <div class="card-body" v-if="detailEpisode && detailEpisode.id && detailAction">
+                <h5 class="card-title" @click='copyToClipboard(detailEpisode.id)'>[[ detailEpisode.id ]] <i>[[ currentActionId + 1 ]]/[[ detailEpisode.actions.length ]]</i></h5>
+
+                <table class="table table-dark table-sm mb-0" style="font-size: 14px;">
+                  <tr>
+                    <th>Bin</th>
+                    <td>[[ detailAction.bin ]]</td>
+                  </tr>
+
+                  <tr v-if="detailAction.bin_episode">
+                    <th>Bin Episode</th>
+                    <td>[[ detailAction.bin_episode | truncate(16) ]]</td>
+                  </tr>
+
+                  <tr>
+                    <th>Reward</th>
+                    <td><input type="number" step="1" class="form-control bg-dark text-light" v-model.number="detailAction.reward" @change="updateReward"> </td>
+                  </tr>
+
+                  <tr>
+                    <th>Estimated Reward</th>
+                    <td>[[ detailAction.estimated_reward | round(4) ]] <span v-if="detailAction.estimated_reward_std">± [[ detailAction.estimated_reward_std | round(4) ]]</span></td>
+                  </tr>
+
+                  <tr>
+                    <th>Method</th>
+                    <td>[[ detailAction.method ]]</td>
+                  </tr>
+
+                  <tr>
+                    <th>Safe</th>
+                    <td>[[ detailAction.safe ]]</td>
+                  </tr>
+
+                  <tr v-show="showAdvanced">
+                    <th>Collision</th>
+                    <td>[[ detailAction.collision ]]</td>
+                  </tr>
+
+                  <tr>
+                    <th>X | Y | Z</th>
+                    <td>[[ detailAction.pose.x | round(3) ]] | [[ detailAction.pose.y | round(3) ]] | [[ detailAction.pose.z | round(3) ]]</td>
+                  </tr>
+
+                  <tr>
+                    <th>A | B | C</th>
+                    <td>[[ detailAction.pose.a | round(3) ]] | [[ detailAction.pose.b | round(3) ]] | [[ detailAction.pose.c | round(3) ]]</td>
+                  </tr>
+
+                  <tr>
+                    <th>D</th>
+                    <td>[[ detailAction.pose.d | round(3) ]]</td>
+                  </tr>
+
+                  <tr v-show="showAdvanced" v-if="detailAction.final_pose">
+                    <th>Final X | Y | Z</th>
+                    <td>[[ detailAction.final_pose.x | round(3) ]] | [[ detailAction.final_pose.y | round(3) ]] | [[ detailAction.final_pose.z | round(3) ]]</td>
+                  </tr>
+
+                  <tr v-show="showAdvanced" v-if="detailAction.final_pose">
+                    <th>Final A | B | C</th>
+                    <td>[[ detailAction.final_pose.a | round(3) ]] | [[ detailAction.final_pose.b | round(3) ]] | [[ detailAction.final_pose.c | round(3) ]]</td>
+                  </tr>
+
+                  <tr v-if="detailAction.final_pose">
+                    <th>Final D</th>
+                    <td>[[ detailAction.final_pose.d | round(3) ]]</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-template" id="live-template">
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-around">
+        <router-link class="navbar-brand" to="/">Robot Learning Live</router-link>
+
+        <div class="nav-item">
+          <router-link class="nav-link" style="color: #aaa;" to="live">Live</router-link>
+        </div>
+
+        <div class="flex-fill"></div>
+
+        <div class="nav-item ml-2">
+          <select class="custom-select bg-dark text-light" v-model="collection" @change="updateLastAction">
+            <option :value="d" v-for="d in collectionList">[[ d ]]</option>
+          </select>
+        </div>
+      </nav>
+
+      <div class="container-fluid mt-2 mb-2">
+        <div class="row">
+          <div class="col-12 col-lg-8">
+            <div class="card card-border text-light mt-2 mb-2 card-live-image ml-auto mr-auto" :class="{ 'bg-light': lastAction.attempt, 'bg-success': lastAction.reward > 0, 'bg-danger': lastAction.reward <= 0 }">
+              <img class="card-img-top" :src="`api/image/${collection}/${lastAction.episode_id}/${lastAction.action_id}/${suffix}?bin=${showBox}&pose=${JSON.stringify(lastAction)}`">
+              <div class="card-img-overlay d-flex flex-column justify-content-between">
+                <p class="card-title">[[ lastAction.episode_id ]] <span v-if="lastAction.action_id > 1">| [[ lastAction.action_id + 1 ]]</span></p>
+                <span>[[ lastAction.type ]]: [[ lastAction.reward | round(3) ]]</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <div class="card text-light bg-dark mt-2 mb-2">
+              <div class="card-body">
+                <h5 class="card-title">[[ lastAction.episode_id ]] <i>[[ lastAction.action_id ]]</i></h5>
+
+                <table class="table table-dark table-sm table-striped">
+                  <tr>
+                    <th>Reward</th>
+                    <td>[[ lastAction.reward ]]</td>
+                  </tr>
+
+                  <tr>
+                    <th>Did Collide</th>
+                    <td>[[ lastAction.collision ]]</td>
+                  </tr>
+
+                  <tr v-if="lastAction.pose">
+                    <th>Pose X | Y | Z</th>
+                    <td>[[ lastAction.pose.x | round(4) ]] | [[ lastAction.pose.y | round(4) ]] | [[ lastAction.pose.z | round(4) ]]</td>
+                  </tr>
+
+                  <tr v-if="lastAction.pose">
+                    <th>Pose A | B | C</th>
+                    <td>[[ lastAction.pose.a | round(4) ]] | [[ lastAction.pose.b | round(4) ]] | [[ lastAction.pose.c | round(4) ]]</td>
+                  </tr>
+
+                  <tr v-if="lastAction.pose">
+                    <th>Pose D</th>
+                    <td>[[ lastAction.pose.d | round(4) ]]</td>
+                  </tr>
+
+                  <tr v-if="lastAction.final_pose">
+                    <th>Final Pose X | Y | Z</th>
+                    <td>[[ lastAction.final_pose.x | round(4) ]] | [[ lastAction.final_pose.y | round(4) ]] | [[ lastAction.final_pose.z | round(4) ]]</td>
+                  </tr>
+
+                  <tr v-if="lastAction.final">
+                    <th>Final Pose A | B | C</th>
+                    <td>[[ lastAction.final_pose.a | round(4) ]] | [[ lastAction.final_pose.b | round(4) ]] | [[ lastAction.final_pose.c | round(4) ]]</td>
+                  </tr>
+
+                  <tr v-if="lastAction.final">
+                    <th>Final Pose D</th>
+                    <td>[[ lastAction.final_pose.d | round(4) ]]</td>
+                  </tr>
+
+                  <tr>
+                    <th>Safe</th>
+                    <td>[[ lastAction.safe ]]</td>
+                  </tr>
+
+                  <tr>
+                    <th>Estimated Reward</th>
+                    <td>[[ lastAction.estimated_reward | round(4) ]] <span v-if="lastAction.estimated_reward_std">± [[ lastAction.estimated_reward_std | round(4) ]]</span></td>
+                  </tr>
+
+                  <tr>
+                    <th>Method</th>
+                    <td>[[ lastAction.method ]]</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script src="static/main.js"></script>
+</body>
+</html>

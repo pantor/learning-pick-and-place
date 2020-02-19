@@ -1,0 +1,10 @@
+flask
+flask-socketio
+loguru
+numpy
+opencv-python
+pymongo
+pandas
+requests
+tensorflow
+tqdm
