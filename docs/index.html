@@ -56,12 +56,20 @@
 
       <h2>Supplementary Material</h2>
       <p class="text">
-      	Below, we show several examples of our pick-and-place system.
+      	Below, we show supplementary videos of our pick-and-place system.
 				As our approach places objects according to a demonstrated goal state, it does not require an object model.
+				We've trained two models:
+				First, a model using RGBD-images handling screws on around 3500 pick-and-place actions.
+				Second, a general model using depth-images trained while manipulating wooden objects with around 25000 pick-and-place actions.
+				It is used for all further experiments without screws.
       </p>
 			
 			
 			<h3>Unknown Objects</h3>
+			<p class="text">
+      	As no object model is needed, our system is able to pick-and-place even unknown objects with high precision.
+      </p>
+			
 			<div class="videobereich">
           <iframe class="videoextern" src="https://drive.google.com/file/d/13fKhRBFfDtJIuZS7PZE0a7_HMfS5NLtJ/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
       </div>
@@ -69,10 +77,15 @@
 			
 			
 			<h3>Insertion Task</h3>
+			<p class="text">
+      	To further demonstrate the precision of our system, we evaluate insertion tasks with small tolerances.
+				The robot achieves success rates - depending on the object type - of up to 90% despite grasping out of clutter.
+      </p>
+			
 			<div class="videobereich">
           <iframe class="videoextern" src="https://drive.google.com/file/d/15EtIIgF82n8fP1sRrL3InbSW8NqTY-u-/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
       </div>
-      <div class="video-caption"><b>Video 2</b> Playing the peg game, demonstrating the high-precision even when grasping out of clutter.</div>
+      <div class="video-caption"><b>Video 2</b> Playing the peg game.</div>
 			
 			<div class="videobereich">
           <iframe class="videoextern" src="https://drive.google.com/file/d/1sPvapKrkFMof6r4FXFbXIrALU1dVvgDm/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
