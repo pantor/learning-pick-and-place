@@ -1,10 +1,10 @@
 # Learning Pick-and-place
 
-In this repository, we've published the code for our [publication](https://pantor.github.io/learning-pick-and-place/) *Self-supervised Learning for Precise Pick-and-place without Object Model*. As only parts of the code were specifically written for this publication, we introduce the code structure regarding the overall project idea.
+In this repository, we've published the code for our publication [*Self-supervised Learning for Precise Pick-and-place without Object Model*](https://pantor.github.io/learning-pick-and-place/) . As only parts of the code were specifically written for this publication, we introduce the code structure regarding the overall project idea.
 
 <p align="center">
  <a href="https://drive.google.com/file/d/16NdOv_DnqTnZuyejMnWwtg-25bPpuqwT/view?usp=sharing">
-  <img src="docs/assets/block-test.gif?raw=true" alt="Conference Video" />
+  <img width="440" src="docs/system.JPG?raw=true" alt="Video" />
  </a>
 </p>
 
