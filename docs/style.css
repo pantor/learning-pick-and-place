@@ -839,3 +839,8 @@ h3 {
    margin-top: 6rem !important;
    font-weight: bold;
 }
+
+.video-caption {
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
