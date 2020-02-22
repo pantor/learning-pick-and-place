@@ -14,10 +14,6 @@ class Split:
         indices_class = tf.stack([tf.range(tf.shape(input=index)[0]), index], axis=1)
         value_pred = tf.gather_nd(y_pred, indices_class)
 
-        # Confident Learning
-        # if cls.confident_learning_alpha:
-        # sample_weight *= 1 - cls.confident_learning_alpha * tf.abs(value_true - value_pred)
-
         return tf.expand_dims(value_true, 1), tf.expand_dims(value_pred, 1), sample_weight
 
 
