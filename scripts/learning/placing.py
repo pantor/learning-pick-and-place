@@ -22,11 +22,6 @@ from learning.utils.metrics import Losses, SplitMeanSquaredError, SplitBinaryAcc
 from utils.image import draw_around_box, get_area_of_interest_new
 
 
-os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-
-
 class PlacingDataset:
     def __init__(self, episodes, seed=None):
         self.episodes = episodes
@@ -132,13 +127,6 @@ class PlacingDataset:
         # Only single grasp
         if len(e['actions']) == 1:
             pass
-            # zeros = tuple(np.zeros(self.size_result + (1,)))
-            # result = [grasp_before_area + zeros + zeros + (
-            #     (grasp['reward'], grasp_index, 0.4),
-            #     (0, 0, 0),
-            #     (0, 0, 0),
-            # )]
-            # return [np.array(t, dtype=np.float32) for t in zip(*result)]
 
         place = e['actions'][1]
         place_before = self.load_image(collection, episode_id, 1, 'ed-v')
@@ -290,7 +278,7 @@ class Placing:
             'rc': (None, None, 3),
         }
 
-        self.z_size = 64
+        self.z_size = 48
 
         self.percent_validation_set = 0.2
 
@@ -338,8 +326,6 @@ class Placing:
 
         reward_m, *z_m = self.grasp_model(image_grasp_before)
         reward_p, z_p = self.place_model(image_place_before + image_place_goal)
-        # reward = tkl.Concatenate()([self.merge_model([z_mi, z_p]) for z_mi in z_m])
-        # reward = reward_m * reward_p * self.merge_model([z_m[0], z_p])
         reward = self.merge_model([z_m[0], z_p])
 
         losses = Losses()
@@ -422,7 +408,6 @@ class Placing:
         reward_training = tkl.Reshape((number_primitives,))(reward)
 
         z_trainings = []
-        # for i in range(number_primitives):
         for i in range(1):
             z = tkl.Conv2D(self.z_size, kernel_size=(1, 1), activity_regularizer=tk.regularizers.l2(0.0005), name=f'z_m{i}')(x)
             z_training = tkl.Reshape((self.z_size,))(z)
@@ -445,8 +430,6 @@ class Placing:
         x = conv_block(x, 32)
         x = conv_block(x, 32)
 
-        # x = conv_block(x, 32, dilation_rate=(2, 2))
-        # x = conv_block(x, 32, dilation_rate=(2, 2))
         x = conv_block(x, 32)
         x = conv_block(x, 32)
         x = conv_block(x, 32)
@@ -455,8 +438,6 @@ class Placing:
         x_r = conv_block_r(x, 32)
         x_r = conv_block_r(x_r, 32)
 
-        # x_r = conv_block_r(x_r, 48, dilation_rate=(2, 2))
-        # x_r = conv_block_r(x_r, 48, dilation_rate=(2, 2))
         x_r = conv_block_r(x_r, 48)
         x_r = conv_block_r(x_r, 48)
         x_r = conv_block_r(x_r, 48)
@@ -471,8 +452,6 @@ class Placing:
         x = conv_block(x, 48)
         x = conv_block(x, 48)
 
-        # x = conv_block(x, 64, dilation_rate=(2, 2))
-        # x = conv_block(x, 64, dilation_rate=(2, 2))
         x = conv_block(x, 64)
         x = conv_block(x, 64)
         x = conv_block(x, 64)
@@ -499,19 +478,12 @@ class Placing:
         z_m = tk.Input(shape=input_shape, name='z_m')
         z_p = tk.Input(shape=input_shape, name='z_p')
 
-        # distance = tkb.sqrt(tkb.mean(tkb.square(z_m - z_p), axis=1, keepdims=True))
-        # return tk.Model(inputs=[z_m, z_p], outputs=[distance], name='merge')
-
         dense_block = dense_block_gen(l2_reg=0.01, dropout_rate=0.2)
-        # x = tkl.Concatenate()([z_m, z_p])
         x = z_m - z_p
 
         x = dense_block(x, 128)
-        # x = dense_block(x, 128)
         x = dense_block(x, 128)
-        # x = dense_block(x, 128)
         x = dense_block(x, 64)
-        # x = dense_block(x, 64)
 
         reward = tkl.Dense(1, activation='sigmoid', name='reward_merge')(x)
         return tk.Model(inputs=[z_m, z_p], outputs=[reward], name='merge')
