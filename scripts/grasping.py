@@ -9,10 +9,7 @@ import utils.path_fix_catkin  # pylint: disable=W0611
 from utils.camera import Camera
 
 from actions.action import RobotPose
-from agents.agent import Agent
 from agents.agent_place import Agent as AgentPlace
-from agents.agent_predict import Agent as AgentPredict
-from agents.agent_shift import Agent as AgentShift
 from cfrankr import Affine, MotionData  # pylint: disable=E0611
 from config import Config
 from data.loader import Loader
@@ -27,7 +24,6 @@ class BinPickingExperiment(Experiment):
     def __init__(self):
         super().__init__()
 
-        # self.agent = Agent()
         self.agent = AgentPlace(use_goal_images=Config.use_goal_images)
         self.current_bin = Config.start_bin
 
