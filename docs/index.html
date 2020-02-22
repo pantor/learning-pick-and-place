@@ -43,7 +43,15 @@
       <center>
         <h3>Abstract</h3>
         <p class="text">
-	  Work in progress...
+	  			Flexible pick-and-place is a fundamental yet challenging task within robotics, in particular due to the need of an object model for a simple target pose definition.
+					In this work, the robot instead learns to pick-and-place objects according to a single, demonstrated goal state.
+					Our primary contribution lies within combining robot learning of primitives, commonly estimated by fully-convolutional neural networks, with one-shot imitation learning.
+					Therefore, we define the place reward as a contrastive loss between real-world measurements and a task-specific noise distribution.
+					Furthermore, we design our system to learn in a self-supervised manner, enabling real-world experiments with up to 25000 pick-and-place actions.
+					Then, our robot is able to place trained objects with an average placement error of 2.7±0.2 mm and 2.6±0.8°.
+					As our approach does not require an object model, the robot is able to generalize to unknown objects keeping a precision of 5.9±1.1 mm and 4.1±1.2°.
+					We further show a range of emerging behaviors:
+					The robot naturally learns to select the correct object in the presence of multiple object types, precisely inserts objects within a peg game, picks screws out of dense clutter, and infers multiple actions from a single goal state.
 	</p>
   
         <h3>Conference Video</h3>
