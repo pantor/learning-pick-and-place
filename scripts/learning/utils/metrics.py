@@ -36,8 +36,6 @@ class Losses:
         self.bce = tk.losses.BinaryCrossentropy()
         self.mse = tk.losses.MeanSquaredError()
 
-        self.margin = 5.0
-
     def binary_crossentropy(self, y_true, y_pred):
         value_true, value_pred, sample_weight = Split.single_class_split(y_true, y_pred)
         return self.bce(value_true, value_pred, sample_weight=sample_weight)
@@ -45,11 +43,6 @@ class Losses:
     def mean_square_error(self, y_true, y_pred):
         value_true, value_pred, sample_weight = Split.single_class_split(y_true, y_pred)
         return self.mse(value_true, value_pred, sample_weight=sample_weight)
-
-    def contrastive_loss(self, y_true, y_pred):
-        value_true, value_pred, sample_weight = Split.single_class_split(y_true, y_pred)
-        loss = value_true * value_pred + (1 - value_true) * tk.backend.maximum(0.0, self.margin - value_pred)
-        return tk.backend.mean(loss * sample_weight)
 
 
 class SplitBinaryCrossentropy(tk.losses.BinaryCrossentropy):
