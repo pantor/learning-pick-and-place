@@ -727,39 +727,6 @@ a:hover {
  color:#819198
 }
 
-@media screen and (min-width: 64em) {
-   .button-left {
-      position: absolute;
-      margin-left: -106px;
-      margin-top: -250px !important;
-   }
-   
-   .button-right {
-      position: absolute;
-      margin-left: 10px;
-      margin-top: -250px !important;
-   }
-}
-@media screen and (min-width: 42em) and (max-width: 64em) {
-   .button-left {
-      margin: 0.4em;
-   }
-   
-   .button-right {
-      margin: 0.4em;
-   }
-}
-@media screen and (max-width: 42em) {
-   .button-left {
-      margin: 0.4em;
-   }
-   
-   .button-right {
-      margin: 0.4em;
-   }
-}
-
-
 
 .chevron {
   display: inline-block;
@@ -843,4 +810,44 @@ h3 {
 .video-caption {
   margin-bottom: 20px;
   font-size: 1rem;
+}
+
+.sample-title {
+   display: flex;
+   justify-content: space-around;
+
+   font-weight: bolder;
+   border-bottom: #008080 2px solid;
+
+   margin-top: 1em;
+   margin-bottom: 1em;
+   padding-bottom: 0.5em;
+}
+
+.sample-more-button {
+   padding: 0.5em 2.5em;
+   color: 008080;
+
+   background-color: #eeeeee;
+   border-radius: 0.2em;
+   border: none;
+}
+
+.sample-footer {
+   display: flex;
+   justify-content: space-around;
+
+   margin-top: 2em;
+}
+
+.sample-row {
+   display: flex;
+   justify-content: space-between;
+
+   margin-bottom: 0.5em;
+}
+
+.sample-image {
+   margin-left: 3px;
+   margin-right: 3px;
 }

@@ -5,15 +5,10 @@
     <title>Learning Pick-and-place</title>
     <meta property="og:title" content="Self-supervised Learning for Precise Pick-and-place without Object Model">
     <meta property="og:locale" content="en_US">
+
     <meta name="description" content="Self-supervised Learning for Precise Pick-and-place without Object Model">
     <meta property="og:description" content="Self-supervised Learning for Precise Pick-and-place without Object Model">
-    <link rel="canonical" href="https://pantor.github.io/learning-pick-and-place/">
-    <meta property="og:url" content="https://pantor.github.io/learning-pick-and-place/">
-    <meta property="og:site_name" content="learning-pick-and-place">
-    <script type="application/ld+json">
-      {"headline":"Self-supervised Learning for Precise Pick-and-place without Object Model","@type":"WebSite","url":"https://pantor.github.io/learning-pick-and-place/","name":"learning-pick-and-place","description":"Self-supervised Learning for Precise Pick-and-place without Object Model","@context":"http://schema.org"
-    }
-    </script>
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
@@ -43,16 +38,16 @@
       <center>
         <h3>Abstract</h3>
         <p class="text">
-		Flexible pick-and-place is a fundamental yet challenging task within robotics, in particular due to the need of an object model for a simple target pose definition.
-		In this work, the robot instead learns to pick-and-place objects using planar manipulation according to a single, demonstrated goal state.
-		Our primary contribution lies within combining robot learning of primitives, commonly estimated by fully-convolutional neural networks, with one-shot imitation learning.
-		Therefore, we define the place reward as a contrastive loss between real-world measurements and a task-specific noise distribution.
-		Furthermore, we design our system to learn in a self-supervised manner, enabling real-world experiments with up to 25000 pick-and-place actions.
-		Then, our robot is able to place trained objects with an average placement error of 2.7±0.2 mm and 2.6±0.8°.
-		As our approach does not require an object model, the robot is able to generalize to unknown objects keeping a precision of 5.9±1.1 mm and 4.1±1.2°.
-		We further show a range of emerging behaviors:
-		The robot naturally learns to select the correct object in the presence of multiple object types, precisely inserts objects within a peg game, picks screws out of dense clutter, and infers multiple pick-and-place actions from a single goal state.
-	</p>
+          Flexible pick-and-place is a fundamental yet challenging task within robotics, in particular due to the need of an object model for a simple target pose definition.
+          In this work, the robot instead learns to pick-and-place objects using planar manipulation according to a single, demonstrated goal state.
+          Our primary contribution lies within combining robot learning of primitives, commonly estimated by fully-convolutional neural networks, with one-shot imitation learning.
+          Therefore, we define the place reward as a contrastive loss between real-world measurements and a task-specific noise distribution.
+          Furthermore, we design our system to learn in a self-supervised manner, enabling real-world experiments with up to 25000 pick-and-place actions.
+          Then, our robot is able to place trained objects with an average placement error of 2.7±0.2 mm and 2.6±0.8°.
+          As our approach does not require an object model, the robot is able to generalize to unknown objects keeping a precision of 5.9±1.1 mm and 4.1±1.2°.
+          We further show a range of emerging behaviors:
+          The robot naturally learns to select the correct object in the presence of multiple object types, precisely inserts objects within a peg game, picks screws out of dense clutter, and infers multiple pick-and-place actions from a single goal state.
+        </p>
   
         <h3>Conference Video</h3>
         <div class="videobereich">
@@ -79,9 +74,11 @@
       </p>
 			
 			<div class="videobereich">
-          <iframe class="videoextern" src="https://drive.google.com/file/d/13fKhRBFfDtJIuZS7PZE0a7_HMfS5NLtJ/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
+        <iframe class="videoextern" src="https://drive.google.com/file/d/13fKhRBFfDtJIuZS7PZE0a7_HMfS5NLtJ/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
       </div>
-      <div class="video-caption"><b>Video 1</b> Pick-and-place of various unknown objects.</div>
+      <div class="video-caption">
+        <b>Video 1</b> Pick-and-place of various unknown objects.
+      </div>
 			
 			
 			<h3>Insertion Task</h3>
@@ -91,14 +88,18 @@
       </p>
 			
 			<div class="videobereich">
-          <iframe class="videoextern" src="https://drive.google.com/file/d/15EtIIgF82n8fP1sRrL3InbSW8NqTY-u-/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
+        <iframe class="videoextern" src="https://drive.google.com/file/d/15EtIIgF82n8fP1sRrL3InbSW8NqTY-u-/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
       </div>
-      <div class="video-caption"><b>Video 2</b> Playing the peg game.</div>
+      <div class="video-caption">
+        <b>Video 2</b> Playing the peg game.
+      </div>
 			
 			<div class="videobereich">
-          <iframe class="videoextern" src="https://drive.google.com/file/d/1sPvapKrkFMof6r4FXFbXIrALU1dVvgDm/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
+        <iframe class="videoextern" src="https://drive.google.com/file/d/1sPvapKrkFMof6r4FXFbXIrALU1dVvgDm/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
       </div>
-      <div class="video-caption"><b>Video 3</b> Inserting a screw into a custom-designed holder.</div>
+      <div class="video-caption">
+        <b>Video 3</b> Inserting a screw into a custom-designed holder.
+      </div>
 			
 	    
       <h3>Multiple Actions</h3>
@@ -107,20 +108,60 @@
       </p>
 			
       <div class="videobereich">
-          <iframe class="videoextern" src="https://drive.google.com/file/d/16NdOv_DnqTnZuyejMnWwtg-25bPpuqwT/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
+        <iframe class="videoextern" src="https://drive.google.com/file/d/16NdOv_DnqTnZuyejMnWwtg-25bPpuqwT/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
       </div>
-      <div class="video-caption"><b>Video 4</b> Placing the logo of our Alma Mater, the Karlsruhe Institute of Technology (KIT).</div>
+      <div class="video-caption">
+        <b>Video 4</b> Placing the logo of our Alma Mater, the Karlsruhe Institute of Technology (KIT).
+      </div>
 	    
       <div class="videobereich">
-          <iframe class="videoextern" src="https://drive.google.com/file/d/1NmNa5tPUC3LgOdAAsjVDiCLKcLF1vzBI/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
+        <iframe class="videoextern" src="https://drive.google.com/file/d/1NmNa5tPUC3LgOdAAsjVDiCLKcLF1vzBI/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
       </div>
-			<div class="video-caption"><b>Video 5</b> Precisely isolating multiple screws out of dense clutter.</div>
+			<div class="video-caption">
+        <b>Video 5</b> Precisely isolating multiple screws out of dense clutter.
+      </div>
 			
 			<div class="videobereich">
-          <iframe class="videoextern" src="https://drive.google.com/file/d/1J9JiC4P_aav5dQFfeh0fC_RXDTTS5t4r/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
+        <iframe class="videoextern" src="https://drive.google.com/file/d/1J9JiC4P_aav5dQFfeh0fC_RXDTTS5t4r/preview" width="640" height="480" frameborder="0" allowfullscreen></iframe>
       </div>
-			<div class="video-caption"><b>Video 6</b> Demonstrating the flexibility of our one-shot imitation learning approach. For some examples, we demonstrate multiple goal states as an instruction list.</div>
+			<div class="video-caption">
+        <b>Video 6</b> Demonstrating the flexibility of our one-shot imitation learning approach. For some examples, we demonstrate multiple goal states as an instruction list.
+      </div>
 
+
+      <h3>Visual State Space</h3>
+			<p class="text">
+        Here we give samples from our dataset of successful pick-and-place actions.
+        Our approach uses four images, in particular the window of the scene around the robot's tool center point (TCP), as its visual state space.
+      </p>
+
+      <div>
+        <div class="sample-title">
+          <div>Grasp Before</div>
+          <div>Place Before</div>
+          <div>Place After</div>
+          <div>Place Goal</div>
+        </div>
+
+        <sample-state-space id="2019-10-25-11-43-14-265"></sample-state-space>
+        <sample-state-space id="2020-02-04-00-08-16-123"></sample-state-space>
+        <sample-state-space id="2020-02-04-00-34-54-455"></sample-state-space>
+
+        <div v-if="showAllSamples">
+          <sample-state-space id="2020-02-04-00-17-15-755"></sample-state-space>
+          <sample-state-space id="2020-02-04-00-18-07-322"></sample-state-space>
+          <sample-state-space id="2020-02-04-00-25-15-821"></sample-state-space>
+          <sample-state-space id="2020-02-04-00-32-49-222"></sample-state-space>
+          <sample-state-space id="2020-01-10-15-43-05-189"></sample-state-space>
+          <sample-state-space id="2020-01-10-15-59-08-586"></sample-state-space>
+        </div>
+        
+        <div class="sample-footer">
+          <button class="sample-more-button" v-on:click="showMore()" v-if="!showAllSamples">
+            + Show More Examples
+          </button>
+        </div>
+      </div>
 			
       <footer class="site-footer">
         <span class="site-footer-credits">
@@ -145,41 +186,19 @@
     </footer>
     
     <!-- Templates -->
-    <script type="text/x-template" id="steps-carousel-template">
+    <script type="text/x-template" id="sample-state-space">
       <div>
-        <div style="display: flex; align-items: center; flex-wrap: nowrap; overflow-y: scroll;">
-          <div v-for="i in steps.length" ref="steps" style="min-width: 300px; margin: 5px;">
-            <p>
-              <b>Step {{ i - 1 }}</b> <small v-if="i - 1 == 0">(Image Measurement)</small><br>
-              Reward: {{ steps[i - 1].reward }}<br>
-              Estimation: {{ steps[i - 1].estimated_reward }} <span v-if="steps[i - 1].estimated_reward_std">± {{ steps[i - 1].estimated_reward_std }}</span><br>
-              Action:
-              <span v-if="steps[i - 1].action_type < 3">Grasp (Type {{ steps[i - 1].action_type }})</span>
-              <span v-if="steps[i - 1].action_type == 3">Shift</span>
-              <span v-if="steps[i - 1].action_type == 4">Bin Empty</span>
-            </p>
-  
-            <div v-bind:class="current_step == i-1 ? 'highlight-image' : ''">
-              <img :src="`assets/${name}/result-${i - 1}.jpg`" v-on:click="setStep(i - 1, steps.length)"/>
-              <img :src="`assets/${name}/uncertainty-${i - 1}.jpg`" v-on:click="setStep(i - 1, steps.length)"/>
-            </div>
-          </div>
-        </div>
-  
-        <div style="display: flex; justify-content: space-between">
-          <div>
-            <button class="button-left chevron left" v-on:click="setStep(current_step - 1, steps.length)" :disabled="current_step <= 0"></button>
-          </div>
-        
-          <div>
-            <button class="button-right chevron right" v-on:click="setStep(current_step + 1, steps.length)" :disabled="current_step >= steps.length - 1"></button>
-          </div>
+        <div class="sample-row">
+          <img class="sample-image" :src="`data-sample/${id}/${id}-0-ed-v-area.png`" loading="lazy" />
+          <img class="sample-image" :src="`data-sample/${id}/${id}-1-ed-v-area.png`" loading="lazy" />
+          <img class="sample-image" :src="`data-sample/${id}/${id}-1-ed-after-area.png`" loading="lazy" />
+          <img class="sample-image" :src="`data-sample/${id}/${id}-1-ed-goal-area.png`" loading="lazy" />
         </div>
       </div>
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!--script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script-->
 		
     <script src="script.js"></script>
   </body>
