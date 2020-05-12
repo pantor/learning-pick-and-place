@@ -37,6 +37,11 @@ And all requirements for Python 3.6 via Pip and `python3.6 -m pip install -r req
 For an easy start, run `sh terminal-setup.sh` for a complete terminal setup. Start the mongodb daemon. Then run `roslaunch bin_picking moveit.launch`, `rosrun bin_picking grasping.py` and check the database server.
 
 
+## Hyperparameters
+
+Dataset Images
+
+
 ## Robot Learning Database
 
 The robot learning database is a database, server and viewer for research around robotic grasping. It is based on MongoDB, Flask, Vue.js. It shows an overview of all episodes as well as live actions. It can also delete recorded episodes. The server can be started via `python3.6 database/app.py`, afterwards open [localhost](127.0.0.1:8080) in your browser.
