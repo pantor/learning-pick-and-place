@@ -51,6 +51,9 @@ For an easy start, run `sh terminal-setup.sh` for a complete terminal setup. Sta
 |                             | Change bins for grasping                | True                           |
 |                             | Bin empty at max grasp reward           | 0.1                            |
 |                             | Change bins at failed grasps            | 12                             |
+|                             | Number of selected grasp embeddings     | 200                            |
+|                             | Number of selected place embeddings     | 200                            |
+|                             | Bin empty at max grasp reward           | 0.1                            |
 | **Learning**                | Camera image size                       | 752 x 480 px                   |
 |                             | Window image size                       | 200 x 200 px                   |
 |                             | Scaled window image size                | 32 x 32 px                     |
