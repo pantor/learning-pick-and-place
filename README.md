@@ -78,8 +78,9 @@ For an easy start, run `sh terminal-setup.sh` for a complete terminal setup. Sta
 |                             | Different Episodes Images (reward > 0)  | 4                              |
 |                             | Different Object Images (reward > 0)    | 4                              |
 |                             | Different Jittered Object Images (reward > 0)| 0                         |
-|                             | Jittered Pose Distribution              | Triangular Low: 1 mm, 0.06 rad |                              |                             | Jittered Pose Distribution              | Triangular Mid: 6 mm, 0.32 rad |  
-|                             | Jittered Pose Distribution              | Triangular High: 15 mm, 1.5 rad|  
+|                             | Jittered Pose Distribution              | Triangular Low: 1 mm, 0.06 rad |
+|                             | Jittered Pose Distribution              | Triangular Mid: 6 mm, 0.32 rad |
+|                             | Jittered Pose Distribution              | Triangular High: 15 mm, 1.5 rad|
 
 
 ## Robot Learning Database
