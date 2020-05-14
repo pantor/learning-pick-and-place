@@ -39,7 +39,44 @@ For an easy start, run `sh terminal-setup.sh` for a complete terminal setup. Sta
 
 ## Hyperparameters
 
-Dataset Images
+| Group                       | Parameter                               |  Commonly used value           |
+| --------------------------- | --------------------------------------- | ------------------------------:|
+| **Manipulation Primitives** | Pre-shaped gripper widths               | [0.025, 0.05, 0.07, 0.086] m   |
+|                             | Grasp z-offset                          | 0.015 m                        |
+|                             | Place z-offset                          | -0.009 m                       |
+| **Experiment**              | Approach distance                       | 0.12 m                         |
+|                             | Image distance                          | 0.35 m                         |
+|                             | Box size                                | 0.172 x 0.281 x 0.07 m         |
+|                             | Gripper force                           | 20.0 N                         |
+|                             | Change bins for grasping                | True                           |
+|                             | Bin empty at max grasp reward           | 0.1                            |
+|                             | Change bins at failed grasps            | 12                             |
+| **Learning**                | Camera image size                       | 752 x 480 px                   |
+|                             | Window image size                       | 200 x 200 px                   |
+|                             | Scaled window image size                | 32 x 32 px                     |
+|                             | Inference image size                    | 110 x 110 px                   |
+|                             | Grasp Loss Weight                       | `1`                            |
+|                             | Place Loss Weight                       | `1 + 5 * place_reward`         |
+|                             | Merge Loss Weight                       | `4 * (1 + 5 * place_reward)`   |
+|                             | Embedding Size z                        | 48                             |
+|                             | Training Batch Size                     | 64                             |
+|                             | Optimizer                               | Adam with initial LR: 1e-4     |
+|                             | LR Scheduler                            | Reduce on plateau: Factor: 0.2, Patience: 20|
+|                             | Neural Network Architecture             | [Source Code](https://github.com/pantor/learning-pick-and-place/blob/master/scripts/learning/placing.py) |
+| **Image Distribution**      | Use Hindsight                           | True                           |
+|                             | Use Further Hindsight                   | True                           |
+|                             | Use Negative Foresight                  | True                           |
+|                             | Use Own Goal                            | True                           |
+|                             | Use Different Goals                     | True                           |
+|                             | Jittered Hindsight Images               | 3                              |
+|                             | Jittered Hindsight Images (x-axis only) | 3                              |
+|                             | Jittered Goal Images                    | 2                              |
+|                             | Different Episodes Images               | 2                              |
+|                             | Different Episodes Images (reward > 0)  | 4                              |
+|                             | Different Object Images (reward > 0)    | 4                              |
+|                             | Different Jittered Object Images (reward > 0)| 0                         |
+|                             | Jittered Pose Distribution              | Triangular Low: 1 mm, 0.06 rad |                              |                             | Jittered Pose Distribution              | Triangular Mid: 6 mm, 0.32 rad |  
+|                             | Jittered Pose Distribution              | Triangular High: 15 mm, 1.5 rad|  
 
 
 ## Robot Learning Database
