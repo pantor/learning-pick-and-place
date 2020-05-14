@@ -108,18 +108,12 @@ class Config:
     measurement_gripper_force = 20.0  # [N], 15
     performance_gripper_force = 40.0  # [N]
 
-    # Je mehr, desto tiefer
     gripper_classes = [0.05, 0.07, 0.086]  # [m]
     grasp_z_offset = 0.015  # [m]
 
     if 'screw' in grasp_model[0]:
         gripper_classes = [0.025, 0.05, 0.07, 0.085]  # [m]
         grasp_z_offset = 0.008  # [m]
-
-    # Shift
-    grasp_shift_threshold = 0.6
-    shift_empty_threshold = 0.65  # default: 0.29
-    shift_distance = 0.03  # [m]
 
     # Place
     place_z_offset = -0.009  # [m]
