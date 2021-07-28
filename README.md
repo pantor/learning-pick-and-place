@@ -1,5 +1,11 @@
 # Learning Pick-and-place
 
+<p align="center">
+ We've released our easy-to-use Python package <b>Griffig</b>!<br>
+ You can find more information in its <a href="https://github.com/pantor/griffig">repository</a> and on the website <a href="https://griffig.xyz">griffig.xyz</a><br>
+<hr>
+</p>
+
 In this repository, we've published the code for our publication [*Self-supervised Learning for Precise Pick-and-place without Object Model*](https://pantor.github.io/learning-pick-and-place/). As only parts of the code were specifically written for this publication, we introduce the code structure regarding the overall project idea.
 
 <p align="center">
