@@ -40,7 +40,7 @@ And all requirements for Python 3.6 via Pip and `python3.6 -m pip install -r req
 
 ## Start
 
-First, start the mongodb daemon and the database server via `python3 database/app.py` afterwards. Then run `roslaunch bin_picking moveit.launch` for booting up ROS and `roslaunch bin_picking realsense.launch` for bringing up the camera node. Finally, run `rosrun bin_picking grasping.py` for moving the robot.
+First, start the mongodb daemon and the database server via `python3 database/app.py` afterwards. Then launch `roslaunch bin_picking realsense.launch` (or `ensenso.launch`) for bringing up the camera node and the MoveIt! node for the Franka Panda. Finally, run `rosrun bin_picking grasping.py` for moving the robot.
 
 
 ## Hyperparameters
