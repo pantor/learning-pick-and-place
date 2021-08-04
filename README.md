@@ -40,7 +40,7 @@ And all requirements for Python 3.6 via Pip and `python3.6 -m pip install -r req
 
 ## Start
 
-For an easy start, run `sh terminal-setup.sh` for a complete terminal setup. Start the mongodb daemon. Then run `roslaunch bin_picking moveit.launch`, `rosrun bin_picking grasping.py` and check the database server.
+First, start the mongodb daemon and the database server via `python3 database/app.py` afterwards. Then run `roslaunch bin_picking moveit.launch` for booting up ROS and `roslaunch bin_picking realsense.launch` for bringing up the camera node. Finally, run `rosrun bin_picking grasping.py` for moving the robot.
 
 
 ## Hyperparameters
